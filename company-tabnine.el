@@ -83,7 +83,7 @@
 (defconst company-tabnine--process-name "company-tabnine--process")
 (defconst company-tabnine--buffer-name "*company-tabnine-log*")
 (defconst company-tabnine--hooks-alist nil)
-(defconst company-tabnine--protocol-version "1.0.14")
+
 
 ;; tmp file put in company-tabnine-binaries-folder directory
 (defconst company-tabnine--version-tempfile "version")
@@ -142,7 +142,7 @@ Useful when binding keys to temporarily query other completion backends."
   :group 'company-tabnine
   :type 'integer)
 
-(defcustom company-tabnine-context-radius 3000
+(defcustom company-tabnine-context-radius (* 100 1023)
   "The number of chars before point to send for completion.
 
 Note that setting this too small will cause TabNine to not be able to read the entire license activation key."
@@ -161,7 +161,7 @@ Any successful completion will reset the consecutive count."
   :group 'company-tabnine
   :type 'integer)
 
-(defcustom company-tabnine-wait 0.25
+(defcustom company-tabnine-wait 1.0
   "Number of seconds to wait for TabNine to respond."
   :group 'company-tabnine
   :type 'float)
@@ -199,7 +199,7 @@ Only useful on GNU/Linux.  Automatically set if NixOS is detected."
   :group 'company-tabnine
   :type 'string)
 
-(defcustom company-tabnine-auto-balance t
+(defcustom company-tabnine-auto-balance nil
   "Whether TabNine should insert balanced parentheses upon completion."
   :group 'company-tabnine
   :type 'boolean)
@@ -369,6 +369,7 @@ Resets every time successful completion is returned.")
                               (expand-file-name
                                company-tabnine-log-file-path))))
                      (list "--client" "emacs")
+                     (list "--no-lsp" "true")
                      company-tabnine-executable-args)
            :coding 'utf-8
            :connection-type 'pipe
@@ -687,6 +688,7 @@ This is actually obsolete, since `company-other-backend' does the same."
 
 See documentation of `company-backends' for details."
   (interactive (list 'interactive))
+
   (cl-case command
     (interactive (company-begin-backend 'company-tabnine))
     (prefix (company-tabnine--prefix))
@@ -728,7 +730,7 @@ See documentation of `company-backends' for details."
 ;;
 ;; Hooks
 ;;
-
+(defconst company-tabnine--protocol-version (nth 1 (split-string (car (cdr (split-string (company-tabnine--executable-path) ".TabNine"))) "/")))
 
 (provide 'company-tabnine)
 
