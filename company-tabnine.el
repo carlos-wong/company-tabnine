@@ -161,7 +161,7 @@ Any successful completion will reset the consecutive count."
   :group 'company-tabnine
   :type 'integer)
 
-(defcustom company-tabnine-wait 1.0
+(defcustom company-tabnine-wait 3.0
   "Number of seconds to wait for TabNine to respond."
   :group 'company-tabnine
   :type 'float)
