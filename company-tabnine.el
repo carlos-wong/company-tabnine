@@ -377,7 +377,7 @@ Resets every time successful completion is returned.")
            :sentinel #'company-tabnine--process-sentinel
            :noquery t)))
   ;; hook setup
-  (message "TabNine server started.")
+  ;; (message "TabNine server started.")
   (dolist (hook company-tabnine--hooks-alist)
     (add-hook (car hook) (cdr hook))))
 
